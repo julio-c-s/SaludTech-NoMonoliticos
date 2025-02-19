@@ -1,0 +1,20 @@
+[project]
+name = "saludtech"
+version = "1.0.0"
+authors = [
+  { name="David Salamanca", email="d.salamancaz@uniandes.edu.co" },
+  { name="Diego Alejandro Correa", email="d.corread@uniandes.edu.co" },
+  { name="Edwin David Tijaro Santos", email="e.tijaro@uniandes.edu.co" },
+  { name="Julio Cardenas", email="jc.cardenass12@uniandes.edu.co" },
+]
+description = "Proyecto de SaludTech"
+readme = "README.md"
+requires-python = ">=3.10"
+
+[tool.pytest.ini_options]
+addopts = [
+    "--import-mode=importlib",
+]
+pythonpath = [
+  ".", "src",
+]
