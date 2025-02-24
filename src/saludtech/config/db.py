@@ -1,8 +1,7 @@
+# saludtech/config/db.py
 from flask_sqlalchemy import SQLAlchemy
-from flask import Flask
 
-db = None
+db = SQLAlchemy()
 
-def init_db(app: Flask):
-    global db 
-    db = SQLAlchemy(app)
+def init_db(app):
+    db.init_app(app)
