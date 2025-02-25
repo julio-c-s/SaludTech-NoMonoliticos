@@ -1,37 +1,23 @@
-from saludtech.seedwork.aplicacion.servicios import Servicio
-from saludtech.modulos.procesador_imagenes.dominio.entidades import ImagenMedica
-from saludtech.modulos.procesador_imagenes.dominio.fabricas import FabricaImagenes
-from saludtech.modulos.procesador_imagenes.infraestructura.fabricas import FabricaRepositorio
+from saludtech.config.db import get_db
 from saludtech.modulos.procesador_imagenes.infraestructura.repositorios import RepositorioImagenesSQL
-from .mapeadores import MapeadorImagenMedicaDTOJson
-from .dto import ImagenMedicaDTO
+from saludtech.modulos.procesador_imagenes.aplicacion.mapeadores import MapeadorImagenMedicaDTOJson
+from saludtech.modulos.procesador_imagenes.dominio.fabricas import FabricaImagenes
 
-class ServicioImagenMedica(Servicio):
-
+class ServicioImagenMedica:
     def __init__(self):
-        self._fabrica_repositorio: FabricaRepositorio = FabricaRepositorio()
-        self._fabrica_imagenes: FabricaImagenes = FabricaImagenes()
+        # Se obtiene la sesión de base de datos
+        self.session = get_db()
+        # Se crea el repositorio usando la sesión
+        self.repositorio = RepositorioImagenesSQL(self.session)
+        # Se instancia el mapeador
+        self.mapeador = MapeadorImagenMedicaDTOJson()
+        # Se instancia la fábrica para crear la entidad de dominio
+        self.fabrica = FabricaImagenes()
 
-    @property
-    def fabrica_repositorio(self):
-        return self._fabrica_repositorio
-
-    @property
-    def fabrica_imagenes(self):
-        return self._fabrica_imagenes
-
-    def registrar_imagen(self, imagen_dto: ImagenMedicaDTO) -> ImagenMedicaDTO:
-        # Create a domain entity (ImagenMedica) from the DTO using the mapper
-        imagen: ImagenMedica = self.fabrica_imagenes.crear_objeto(imagen_dto, MapeadorImagenMedicaDTOJson())
-
-        # Instantiate the repository using the repository factory
-        repositorio = self.fabrica_repositorio.crear_objeto(RepositorioImagenesSQL.__class__)
-        repositorio.agregar(imagen)
-
-        # Return a DTO representation of the created image
-        return self.fabrica_imagenes.crear_objeto(imagen, MapeadorImagenMedicaDTOJson())
-
-    def obtener_imagen_por_id(self, id) -> ImagenMedicaDTO:
-        repositorio = self.fabrica_repositorio.crear_objeto(RepositorioImagenesSQL.__class__)
-        imagen = repositorio.obtener_por_id(id)
-        return self.fabrica_imagenes.crear_objeto(imagen, MapeadorImagenMedicaDTOJson())
+    def registrar_imagen(self, imagen_dto):
+        # La fábrica se encarga de convertir el objeto (ya sea dict o entidad) en una instancia de ImagenMedica.
+        imagen = self.fabrica.crear_objeto(imagen_dto, self.mapeador)
+        # Ahora se garantiza que 'imagen' es una instancia de ImagenMedica
+        self.repositorio.guardar(imagen)
+        # Se retorna la imagen convertida a dict para la respuesta (usando el mapeador)
+        return self.mapeador.entidad_a_dto(imagen)

@@ -17,7 +17,7 @@ class _FabricaImagenMedica(Fabrica):
 class FabricaImagenes(Fabrica):
     def crear_objeto(self, obj: any, mapeador) -> any:
         # We expect the mapper to work with ImagenMedica objects.
-        if mapeador.obtener_tipo() == ImagenMedica.__class__:
+        if mapeador.obtener_tipo() == ImagenMedica:
             fabrica_imagen = _FabricaImagenMedica()
             return fabrica_imagen.crear_objeto(obj, mapeador)
         else:

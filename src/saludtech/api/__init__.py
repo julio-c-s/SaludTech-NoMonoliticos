@@ -12,9 +12,10 @@ def importar_modelos_alchemy():
 def create_app(configuracion=None):
     # Initialize the Flask application
     app = Flask(__name__, instance_relative_config=True)
+    DATABASE_URL="postgresql://postgres:Monoliticas2025#@34.60.201.230:5432/postgres"
 
     # Database configuration
-    app.config['SQLALCHEMY_DATABASE_URI'] = os.getenv("DATABASE_URL")
+    app.config['SQLALCHEMY_DATABASE_URI'] = DATABASE_URL
     app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 
     # Initialize the DB
@@ -35,12 +36,12 @@ def create_app(configuracion=None):
     # Register the blueprint with a URL prefix
     app.register_blueprint(procesador_imagenes_bp, url_prefix="/api")
 
-    # @app.route("/spec")
-    # def spec():
-    #     swag = swagger(app)
-    #     swag['info']['version'] = "1.0"
-    #     swag['info']['title'] = "My API"
-    #     return jsonify(swag)
+    @app.route("/spec")
+    def spec():
+        swag = swagger(app)
+        swag['info']['version'] = "1.0"
+        swag['info']['title'] = "My API"
+        return jsonify(swag)
 
     @app.route("/health")
     def health():
