@@ -1,4 +1,4 @@
-from modulos.procesador_imagenes.dominio.entidades import ImagenMedica
+from saludtech.modulos.procesador_imagenes.dominio.entidades import ImagenMedica
 
 def mapear_a_entidad(registro) -> ImagenMedica:
     """

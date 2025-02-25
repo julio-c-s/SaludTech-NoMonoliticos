@@ -1,7 +1,9 @@
 # infraestructura/fabricas.py
-from modulos.procesador_imagenes.dominio.entidades import ImagenMedica
-from modulos.procesador_imagenes.dominio.objetos_valor import MetadatosClinicos
+from dataclasses import dataclass
+from saludtech.modulos.procesador_imagenes.dominio.entidades import ImagenMedica
+from saludtech.modulos.procesador_imagenes.dominio.objetos_valor import MetadatosClinicos
 from saludtech.config.db import get_db
+from saludtech.seedwork.dominio.fabricas import Fabrica
 
 class ImagenMedicaFactory:
     @staticmethod

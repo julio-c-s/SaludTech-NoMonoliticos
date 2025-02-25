@@ -14,7 +14,7 @@ def create_app(configuracion=None):
     app = Flask(__name__, instance_relative_config=True)
 
     # Database configuration
-    app.config['SQLALCHEMY_DATABASE_URI'] = os.getenv("DATABASE_URL")
+    app.config['SQLALCHEMY_DATABASE_URI'] = "postgresql://postgres:Monoliticas2025#@34.60.201.230:5432/postgres" #os.getenv("DATABASE_URL", "postgresql://postgres:Monoliticas2025#@34.60.201.230:5432/postgres")
     app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 
     # Initialize the DB
