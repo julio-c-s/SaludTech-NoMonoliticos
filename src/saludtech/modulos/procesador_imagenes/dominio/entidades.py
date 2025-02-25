@@ -1,5 +1,6 @@
 from saludtech.seedwork.dominio.entidades import Entidad  # Base class from seedwork
-from .objetos_valor import MetadatosClinicos
+from saludtech.modulos.procesador_imagenes.dominio.objetos_valor import MetadatosClinicos
+
 
 class ImagenMedica(Entidad):
     def __init__(self, id, url, metadatos: MetadatosClinicos, estado_procesamiento="pendiente"):

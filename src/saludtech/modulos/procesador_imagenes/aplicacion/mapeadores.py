@@ -1,6 +1,7 @@
 from saludtech.modulos.procesador_imagenes.dominio.entidades import ImagenMedica
 from saludtech.modulos.procesador_imagenes.dominio.objetos_valor import MetadatosClinicos
 
+
 class MapeadorImagenMedicaDTOJson:
     def obtener_tipo(self):
         return ImagenMedica

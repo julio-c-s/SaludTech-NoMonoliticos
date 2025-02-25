@@ -24,13 +24,20 @@ def registrar_imagen():
     return jsonify(dto_final), 201
 
 
-@bp.route('/imagen', methods=('GET',))
-@bp.route('/imagen/<id>', methods=('GET',))
+
+@bp.route('/imagen', methods=['GET'])
+@bp.route('/imagen/<string:id>', methods=['GET'])
 def obtener_imagen(id=None):
+    servicio = ServicioImagenMedica()
     if id:
-        # Assuming your service has a method to get an image by its id.
-        servicio = RegistrarImagenMedicaServicio()
-        return servicio.obtener_imagen_por_id(id)
+        try:
+            imagen = servicio.obtener_imagen_por_id(id)
+            if imagen is None:
+                return jsonify({"message": "Imagen no encontrada"}), 404
+            return jsonify(imagen), 200
+        except Exception as e:
+            return jsonify({"error": str(e)}), 500
     else:
-        # For now, return a simple message or list; adjust as needed.
-        return [{"message": "Endpoint GET for imagen sin id not implemented yet"}]
+        # Aquí podrías implementar la lógica para obtener todas las imágenes,
+        # pero por ahora se retorna un mensaje indicándolo.
+        return jsonify({"message": "Endpoint GET para imagen sin ID no implementado aún"}), 200

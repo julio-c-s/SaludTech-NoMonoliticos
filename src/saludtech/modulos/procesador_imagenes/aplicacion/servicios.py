@@ -16,3 +16,10 @@ class ServicioImagenMedica:
         # Ahora imagen es una instancia de ImagenMedica, por lo que mapear_a_registro funcionará correctamente.
         self.repositorio.guardar(imagen)
         return self.mapeador.entidad_a_dto(imagen)
+    
+    def obtener_imagen_por_id(self, id_imagen):
+            print("LLEgue a obetenrpor id")
+            imagen = self.repositorio.obtener_por_id(id_imagen)
+            if imagen is None:
+                return None
+            return self.mapeador.entidad_a_dto(imagen)

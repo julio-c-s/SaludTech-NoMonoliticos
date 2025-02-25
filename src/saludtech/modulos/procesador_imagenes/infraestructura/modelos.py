@@ -16,3 +16,6 @@ class ImagenMedicaModel(db.Model):
 
     def __repr__(self):
         return f"<ImagenMedicaModel {self.id}>"
+    
+def importar_modelos_alchemy():
+    import saludtech.modulos.procesador_imagenes.infraestructura.modelos
