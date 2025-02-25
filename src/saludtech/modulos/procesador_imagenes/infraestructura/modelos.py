@@ -1,17 +1,18 @@
 from datetime import datetime
 from flask_sqlalchemy import SQLAlchemy
 
-# Se asume que la instancia de SQLAlchemy se inicializa en otro módulo
 db = SQLAlchemy()
 
 class ImagenMedicaModel(db.Model):
     __tablename__ = 'imagenes_medicas'
     
-    id = db.Column(db.Integer, primary_key=True)
-    nombre = db.Column(db.String(128), nullable=False)
+    id = db.Column(db.String, primary_key=True)  # Usamos string para coincidir con el dominio
     url = db.Column(db.String(256), unique=True, nullable=False)
-    ruta_archivo = db.Column(db.String(256), nullable=False)
+    modalidad = db.Column(db.String(64), nullable=False)
+    region_anatomica = db.Column(db.String(64), nullable=False)
+    patologia = db.Column(db.String(64), nullable=False)
+    estado_procesamiento = db.Column(db.String(32), nullable=False, default="pendiente")
     fecha_creacion = db.Column(db.DateTime, default=datetime.utcnow)
-    
+
     def __repr__(self):
-        return f"<ImagenMedicaModel {self.nombre}>"
+        return f"<ImagenMedicaModel {self.id}>"

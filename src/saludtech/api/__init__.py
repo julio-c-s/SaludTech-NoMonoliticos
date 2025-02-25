@@ -7,7 +7,9 @@ from dotenv import load_dotenv
 basedir = os.path.abspath(os.path.dirname(__file__))
 
 def importar_modelos_alchemy():
-    import saludtech.modulos.procesador_imagenes.infraestructura.dto
+    ##import saludtech.modulos.procesador_imagenes.infraestructura.dto
+    import saludtech.modulos.procesador_imagenes.infraestructura.modelos
+
 
 def create_app(configuracion=None):
     # Initialize the Flask application

@@ -1,11 +1,11 @@
-from ..dominio.entidades import ImagenMedica
+from saludtech.modulos.procesador_imagenes.dominio.entidades import ImagenMedica
+from saludtech.modulos.procesador_imagenes.dominio.objetos_valor import MetadatosClinicos
 
 class MapeadorImagenMedicaDTOJson:
     def obtener_tipo(self):
         return ImagenMedica
 
     def dto_a_entidad(self, dto) -> ImagenMedica:
-        from ..dominio.objetos_valor import MetadatosClinicos
         metadatos = MetadatosClinicos(dto['modalidad'], dto['region_anatomica'], dto['patologia'])
         return ImagenMedica(dto['id'], dto['url'], metadatos, dto.get('estado_procesamiento', 'pendiente'))
 
