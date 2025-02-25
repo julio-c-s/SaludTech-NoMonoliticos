@@ -1,22 +1,17 @@
-from sqlalchemy import Column, String
-from sqlalchemy.ext.declarative import declarative_base
+from datetime import datetime
+from flask_sqlalchemy import SQLAlchemy
 
-Base = declarative_base()
+# Se asume que la instancia de SQLAlchemy se inicializa en otro módulo
+db = SQLAlchemy()
 
-class ImagenMedicaModel(Base):
+class ImagenMedicaModel(db.Model):
     __tablename__ = 'imagenes_medicas'
-
-    id = Column(String, primary_key=True)
-    url = Column(String, nullable=False)
-    modalidad = Column(String, nullable=False)
-    region_anatomica = Column(String, nullable=False)
-    patologia = Column(String, nullable=False)
-    estado_procesamiento = Column(String, nullable=False)
-
-    def __init__(self, id, url, modalidad, region_anatomica, patologia, estado_procesamiento):
-        self.id = id
-        self.url = url
-        self.modalidad = modalidad
-        self.region_anatomica = region_anatomica
-        self.patologia = patologia
-        self.estado_procesamiento = estado_procesamiento
+    
+    id = db.Column(db.Integer, primary_key=True)
+    nombre = db.Column(db.String(128), nullable=False)
+    url = db.Column(db.String(256), unique=True, nullable=False)
+    ruta_archivo = db.Column(db.String(256), nullable=False)
+    fecha_creacion = db.Column(db.DateTime, default=datetime.utcnow)
+    
+    def __repr__(self):
+        return f"<ImagenMedicaModel {self.nombre}>"

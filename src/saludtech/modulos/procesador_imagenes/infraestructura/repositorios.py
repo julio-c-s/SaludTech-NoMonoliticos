@@ -1,7 +1,10 @@
-from ..dominio.repositorio import RepositorioImagenes
-from ..infraestructura.excepciones import RepositorioException
-from ..infraestructura.mapeadores import mapear_a_entidad, mapear_a_registro
-from ..infraestructura.modelos import ImagenMedicaModel
+from saludtech.modulos.procesador_imagenes.dominio.repositorio import RepositorioImagenes
+from saludtech.modulos.procesador_imagenes.infraestructura.excepciones import RepositorioException
+from saludtech.modulos.procesador_imagenes.infraestructura.mapeadores import mapear_a_entidad, mapear_a_registro
+
+# Import the ORM model. Ensure that this model is defined to match your ImagenMedica entity.
+from saludtech.modulos.procesador_imagenes.infraestructura.modelos import ImagenMedicaModel
+
 
 class RepositorioImagenesSQL(RepositorioImagenes):
     def __init__(self, session):
@@ -28,8 +31,6 @@ class RepositorioImagenesSQL(RepositorioImagenes):
 
     def guardar(self, imagen):
         try:
-            if isinstance(imagen, dict):
-                raise ValueError("Expected ImagenMedica instance, got dict")
             data = mapear_a_registro(imagen)
             # Create an ORM model instance using the mapped data.
             registro = self._tabla(**data)
