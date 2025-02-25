@@ -6,10 +6,22 @@ class MapeadorImagenMedicaDTOJson:
         return ImagenMedica
 
     def dto_a_entidad(self, dto) -> ImagenMedica:
-        metadatos = MetadatosClinicos(dto['modalidad'], dto['region_anatomica'], dto['patologia'])
-        return ImagenMedica(dto['id'], dto['url'], metadatos, dto.get('estado_procesamiento', 'pendiente'))
+        metadatos = MetadatosClinicos(
+            dto['modalidad'],
+            dto['region_anatomica'],
+            dto['patologia']
+        )
+        return ImagenMedica(
+            dto['id'],
+            dto['url'],
+            metadatos,
+            dto.get('estado_procesamiento', 'pendiente')
+        )
 
-    def entidad_a_dto(self, entidad: ImagenMedica) -> dict:
+    def entidad_a_dto(self, entidad) -> dict:
+        # Si 'entidad' ya es un diccionario, lo retorna directamente.
+        if isinstance(entidad, dict):
+            return entidad
         return {
             "id": entidad.id,
             "url": entidad.url,

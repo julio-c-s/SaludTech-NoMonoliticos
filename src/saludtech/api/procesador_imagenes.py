@@ -26,11 +26,11 @@ def registrar_imagen():
 
 @bp.route('/imagen', methods=('GET',))
 @bp.route('/imagen/<id>', methods=('GET',))
-def obtener_imagen(id=None):
-    if id:
-        # Assuming your service has a method to get an image by its id.
-        servicio = RegistrarImagenMedicaServicio()
-        return servicio.obtener_imagen_por_id(id)
-    else:
-        # For now, return a simple message or list; adjust as needed.
-        return [{"message": "Endpoint GET for imagen sin id not implemented yet"}]
+def obtener_imagen(id):
+    servicio = ServicioImagenMedica()
+    imagen_dto = servicio.obtener_imagen_por_id(id)
+    if imagen_dto is None:
+        return jsonify({"error": "Imagen no encontrada"}), 404
+
+    map_imagen = MapeadorImagenMedicaDTOJson()
+    return jsonify(map_imagen.entidad_a_dto(imagen_dto))
