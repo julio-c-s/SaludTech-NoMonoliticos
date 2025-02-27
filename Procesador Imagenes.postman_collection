@@ -1,0 +1,169 @@
+{
+	"info": {
+		"_postman_id": "c116aa34-596a-447c-9484-52092fe1121e",
+		"name": "Procesador de Imágenes API",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "27006702",
+		"_collection_link": "https://www.postman.com/planetary-moon-476982/workspace/proyecto-final/collection/27006702-c116aa34-596a-447c-9484-52092fe1121e?action=share&source=collection_link&creator=27006702"
+	},
+	"item": [
+		{
+			"name": "Registrar Imagen",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"let responseData = pm.response.json();\r",
+							"\r",
+							"pm.collectionVariables.set(\"imagen_id\", responseData.id);\r",
+							"pm.collectionVariables.set(\"imagen_url\", responseData.url);"
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"url\": \"{{$randomUrl}}\",\r\n    \"modalidad\": \"MRI\",\r\n    \"region_anatomica\": \"Cabeza\",\r\n    \"patologia\": \"Tumor\"\r\n}"
+				},
+				"url": {
+					"raw": "{{base_url}}/imagen",
+					"host": [
+						"{{base_url}}"
+					],
+					"path": [
+						"imagen"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Obtener Imagen por ID",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{base_url}}/imagen/{{imagen_id}}",
+					"host": [
+						"{{base_url}}"
+					],
+					"path": [
+						"imagen",
+						"{{imagen_id}}"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Obtener Todas las Imágenes",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{base_url}}/imagen",
+					"host": [
+						"{{base_url}}"
+					],
+					"path": [
+						"imagen"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Actualizar Imagen",
+			"request": {
+				"method": "PUT",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"url\": \"{{$randomUrl}}\",\r\n    \"modalidad\": \"MRI\",\r\n    \"region_anatomica\": \"Brazo\",\r\n    \"patologia\": \"Fractura\"\r\n}"
+				},
+				"url": {
+					"raw": "{{base_url}}/imagen/{{imagen_id}}",
+					"host": [
+						"{{base_url}}"
+					],
+					"path": [
+						"imagen",
+						"{{imagen_id}}"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Eliminar Imagen",
+			"request": {
+				"method": "DELETE",
+				"header": [],
+				"url": {
+					"raw": "{{base_url}}/imagen/{{imagen_id}}",
+					"host": [
+						"{{base_url}}"
+					],
+					"path": [
+						"imagen",
+						"{{imagen_id}}"
+					]
+				}
+			},
+			"response": []
+		}
+	],
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"packages": {},
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"packages": {},
+				"exec": [
+					""
+				]
+			}
+		}
+	],
+	"variable": [
+		{
+			"key": "base_url",
+			"value": "http://127.0.0.1:5000/api",
+			"type": "string"
+		},
+		{
+			"key": "imagen_id",
+			"value": ""
+		},
+		{
+			"key": "imagen_url",
+			"value": ""
+		}
+	]
+}

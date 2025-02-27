@@ -35,8 +35,3 @@ class ServicioImagenMedica:
     def eliminar_imagen(self, id_imagen):
         self.repositorio.eliminar(id_imagen)
         
-    def obtener_imagen_por_url(self, url):
-        imagen = self.repositorio.obtener_por_url(url)
-        if imagen is None:
-            return None
-        return self.mapeador.entidad_a_dto(imagen)

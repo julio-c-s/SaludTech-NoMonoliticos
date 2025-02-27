@@ -58,18 +58,3 @@ def eliminar_imagen(id=None):
     servicio = ServicioImagenMedica()
     servicio.eliminar_imagen(id)
     return jsonify({"message": "Imagen eliminada"}), 200
-
-@bp.route('/imagen/url/<string:url>', methods=['GET'])
-def obtener_imagen_por_url(url=None):
-    servicio = ServicioImagenMedica()
-    if url:
-        try:
-            imagen = servicio.obtener_imagen_por_url(url)
-            if imagen is None:
-                return jsonify({"message": "Imagen no encontrada"}), 404
-            return jsonify(imagen), 200
-        except Exception as e:
-            return jsonify({"error": str(e)}), 500
-    else:
-
-        return jsonify({"message": "Endpoint GET para imagen sin URL no implementado aún"}), 200

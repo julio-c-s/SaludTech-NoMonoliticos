@@ -1,14 +1,15 @@
+import uuid
 from saludtech.modulos.procesador_imagenes.dominio.entidades import ImagenMedica
 from saludtech.modulos.procesador_imagenes.dominio.objetos_valor import MetadatosClinicos
-
 
 class MapeadorImagenMedicaDTOJson:
     def obtener_tipo(self):
         return ImagenMedica
 
     def dto_a_entidad(self, dto) -> ImagenMedica:
-        metadatos = MetadatosClinicos(dto['modalidad'], dto['region_anatomica'], dto['patologia'])
-        return ImagenMedica(dto['id'], dto['url'], metadatos, dto.get('estado_procesamiento', 'pendiente'))
+        metadatos = MetadatosClinicos(dto.get('modalidad'), dto.get('region_anatomica'), dto.get('patologia'))
+        id_imagen = dto.get('id', str(uuid.uuid4()))  # Genera un UUID si 'id' no está presente
+        return ImagenMedica(id_imagen, dto['url'], metadatos, dto.get('estado_procesamiento', 'pendiente'))
 
     def entidad_a_dto(self, entidad: ImagenMedica) -> dict:
         return {
