@@ -24,15 +24,14 @@ class RepositorioImagenesSQL(RepositorioImagenes):
             print("Registro", e)
             raise RepositorioException(f"Error al obtener imagen por id: {str(e)}")
 
-    def obtener_por_url(self, url):
+    def obtener_todos(self):
         try:
-            registro = self.session.query(self._tabla).filter_by(url=url).first()
-            if registro:
-                return mapear_a_entidad(registro)
-            return None
+            registros = self.session.query(self._tabla).all()
+            return [mapear_a_entidad(registro) for registro in registros]
         except Exception as e:
-            raise RepositorioException(f"Error al obtener imagen por url: {str(e)}")
+            raise RepositorioException(f"Error al obtener todas las imagenes: {str(e)}")
 
+    # Misma funcion de Agregar
     def guardar(self, imagen):
         try:
             data = mapear_a_registro(imagen)
@@ -43,6 +42,18 @@ class RepositorioImagenesSQL(RepositorioImagenes):
         except Exception as e:
             self.session.rollback()
             raise RepositorioException(f"Error al guardar la imagen: {str(e)}")
+        
+    def actualizar(self, imagen):
+        try:
+            data = mapear_a_registro(imagen)
+            registro = self.session.query(self._tabla).filter_by(id=imagen.id).first()
+            if registro:
+                for key, value in data.items():
+                    setattr(registro, key, value)
+                self.session.commit()
+        except Exception as e:
+            self.session.rollback()
+            raise RepositorioException(f"Error al actualizar la imagen: {str(e)}")
 
     def eliminar(self, id_imagen):
         try:
@@ -53,3 +64,12 @@ class RepositorioImagenesSQL(RepositorioImagenes):
         except Exception as e:
             self.session.rollback()
             raise RepositorioException(f"Error al eliminar la imagen: {str(e)}")
+
+    def obtener_por_url(self, url):
+        try:
+            registro = self.session.query(self._tabla).filter_by(url=url).first()
+            if registro:
+                return mapear_a_entidad(registro)
+            return None
+        except Exception as e:
+            raise RepositorioException(f"Error al obtener imagen por url: {str(e)}")

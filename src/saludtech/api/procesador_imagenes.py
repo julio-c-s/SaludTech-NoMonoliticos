@@ -23,9 +23,6 @@ def registrar_imagen():
     dto_final = servicio.registrar_imagen(imagen_dto)
     return jsonify(dto_final), 201
 
-
-
-@bp.route('/imagen', methods=['GET'])
 @bp.route('/imagen/<string:id>', methods=['GET'])
 def obtener_imagen(id=None):
     servicio = ServicioImagenMedica()
@@ -40,3 +37,39 @@ def obtener_imagen(id=None):
     else:
 
         return jsonify({"message": "Endpoint GET para imagen sin ID no implementado aún"}), 200
+    
+@bp.route('/imagen', methods=['GET'])
+def obtener_imagenes():
+    servicio = ServicioImagenMedica()
+    imagenes = servicio.obtener_todas_las_imagenes()
+    return jsonify(imagenes), 200
+
+@bp.route('/imagen/<string:id>', methods=['PUT'])
+def actualizar_imagen(id=None):
+    data = request.get_json()
+    map_imagen = MapeadorImagenMedicaDTOJson()
+    imagen_dto = map_imagen.externo_a_dto(data)
+    servicio = ServicioImagenMedica()
+    dto_final = servicio.actualizar_imagen(imagen_dto)
+    return jsonify(dto_final), 200
+
+@bp.route('/imagen/<string:id>', methods=['DELETE'])
+def eliminar_imagen(id=None):
+    servicio = ServicioImagenMedica()
+    servicio.eliminar_imagen(id)
+    return jsonify({"message": "Imagen eliminada"}), 200
+
+@bp.route('/imagen/url/<string:url>', methods=['GET'])
+def obtener_imagen_por_url(url=None):
+    servicio = ServicioImagenMedica()
+    if url:
+        try:
+            imagen = servicio.obtener_imagen_por_url(url)
+            if imagen is None:
+                return jsonify({"message": "Imagen no encontrada"}), 404
+            return jsonify(imagen), 200
+        except Exception as e:
+            return jsonify({"error": str(e)}), 500
+    else:
+
+        return jsonify({"message": "Endpoint GET para imagen sin URL no implementado aún"}), 200
