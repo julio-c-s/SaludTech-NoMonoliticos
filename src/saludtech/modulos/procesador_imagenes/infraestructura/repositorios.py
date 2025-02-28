@@ -12,16 +12,13 @@ class RepositorioImagenesSQL(RepositorioImagenes):
         self._tabla = ImagenMedicaModel
 
     def obtener_por_id(self, id_imagen):
-        print("LLEgue a obetenrpor id repo")
         try:
             registro = self.session.query(self._tabla).filter_by(id=id_imagen).first()
             if registro:
-                print("Registro")
                 return mapear_a_entidad(registro)
             
             return None
         except Exception as e:
-            print("Registro", e)
             raise RepositorioException(f"Error al obtener imagen por id: {str(e)}")
 
     def obtener_todos(self):
