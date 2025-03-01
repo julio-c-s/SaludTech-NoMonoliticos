@@ -6,7 +6,7 @@ from datetime import datetime
 import uuid
 
 class ImagenAnonimizada(Entidad):
-    __tablename__ = "imagenes_medicas"
+    __tablename__ = "imagenes_anonimizadas"
 
     id = Column(UUID(as_uuid=True), primary_key=True, default=uuid.uuid4)
     id_imagen_original = Column(UUID(as_uuid=True), nullable=False)
@@ -16,7 +16,7 @@ class ImagenAnonimizada(Entidad):
     fecha_creacion = Column(DateTime, nullable=False, default=datetime.utcnow)
 
     def __init__(self, id_imagen_original=None, url_imagen_original=None, url_imagen_anonimizada=None, estado_procesamiento="pendiente"):
-        super().__init__(id or uuid.uuid4())
+        super().__init__(str(uuid.uuid4())) 
         self.id_imagen_original = id_imagen_original
         self.url_imagen_original = url_imagen_original
         self.url_imagen_anonimizada = url_imagen_anonimizada

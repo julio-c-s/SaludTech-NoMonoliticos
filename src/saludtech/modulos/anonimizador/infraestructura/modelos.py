@@ -4,13 +4,12 @@ from flask_sqlalchemy import SQLAlchemy
 db = SQLAlchemy()
 
 class ImagenAnonimizadaModel(db.Model):
-    __tablename__ = 'imagenes_medicas'
+    __tablename__ = 'imagenes_anonimizadas'
     
-    id = db.Column(db.String, primary_key=True)  # Usamos string para coincidir con el dominio
-    url = db.Column(db.String(256), unique=True, nullable=False)
-    modalidad = db.Column(db.String(64), nullable=False)
-    region_anatomica = db.Column(db.String(64), nullable=False)
-    patologia = db.Column(db.String(64), nullable=False)
+    id = db.Column(db.String, primary_key=True)
+    id_imagen_original = db.Column(db.String, nullable=False)
+    url_imagen_original = db.Column(db.String, nullable=False)
+    url_imagen_anonimizada = db.Column(db.String, nullable=True)
     estado_procesamiento = db.Column(db.String(32), nullable=False, default="pendiente")
     fecha_creacion = db.Column(db.DateTime, default=datetime.utcnow)
 

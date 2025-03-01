@@ -15,7 +15,7 @@ def mapear_a_registro(imagen: ImagenAnonimizada) -> dict:
     """
     return {
         "id": imagen.id,
-        "id_imagen_original": imagen.metadatos.id_imagen_original,
+        "id_imagen_original": imagen.id_imagen_original,
         "url_imagen_original": imagen.url_imagen_original,
         "url_imagen_anonimizada": imagen.url_imagen_anonimizada,
         "estado_procesamiento": imagen.estado_procesamiento

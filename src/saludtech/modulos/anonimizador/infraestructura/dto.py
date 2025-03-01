@@ -3,9 +3,8 @@ from dataclasses import dataclass
 
 @dataclass
 class ImagenAnonimizadaDTO:
-    id: str
-    url: str
-    modalidad: str
-    region_anatomica: str
-    patologia: str
-    estado_procesamiento: str = "pendiente"
+    id: int
+    id_imagen_original: int
+    url_imagen_original: str
+    url_imagen_anonimizada: str
+    estado_procesamiento: str

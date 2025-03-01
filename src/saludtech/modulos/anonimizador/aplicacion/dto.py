@@ -1,8 +1,8 @@
 class ImagenAnonimizadaDTO:
-    def __init__(self, id=None, url=None, modalidad=None, region_anatomica=None, patologia=None, estado_procesamiento="pendiente"):
+    def __init__(self, id=None, id_imagen_original=None, url_imagen_original=None, url_imagen_anonimizada=None, estado_procesamiento="pendiente"):
         self.id = id
-        self.url = url
-        self.modalidad = modalidad
-        self.region_anatomica = region_anatomica
-        self.patologia = patologia
+        self.id_imagen = id
+        self.url_imagen_original = url_imagen_original
+        self.url_imagen_anonimizada = url_imagen_anonimizada
         self.estado_procesamiento = estado_procesamiento
+        

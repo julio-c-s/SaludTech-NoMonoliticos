@@ -23,7 +23,7 @@ class ServicioImagenAnonimizada:
         evento = ImagenSubida(
             timestamp=datetime.now(),
             imagen_id=imagen.id,
-            ruta_archivo=imagen.url
+            ruta_archivo=imagen.url_imagen_original
         )
         dispatcher.publicar(evento)
         return self.mapeador.entidad_a_dto(imagen)
