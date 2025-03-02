@@ -28,28 +28,43 @@ class ServicioImagenAnonimizada:
         )
         dispatcher.publicar(evento)
         return self.mapeador.entidad_a_dto(imagen)
-    
-    def obtener_imagen_por_id(self, id_imagen):
+
+    def obtener_imagen(self, id_imagen) -> ImagenAnonimizada:
         imagen = self.repositorio.obtener_por_id(id_imagen)
-        if imagen is None:
-            return None
-        return self.mapeador.entidad_a_dto(imagen)
-    
+        if not imagen:
+            raise ValueError(f"No se encontró la imagen con ID {id_imagen}")
+        
+        print(f"[DEBUG] Imagen obtenida de la BD: ID = {imagen.id}")  # Log para verificar
+        return imagen
+
     def obtener_todas_las_imagenes(self):
         imagenes = self.repositorio.obtener_todos()
         return [self.mapeador.entidad_a_dto(imagen) for imagen in imagenes]
-    
+
     def actualizar_imagen(self, imagen_dto):
-        imagen = self.fabrica.crear_objeto(imagen_dto, self.mapeador)
-        self.repositorio.actualizar(imagen)
+        imagen_existente = self.repositorio.obtener_por_id(imagen_dto.id)
+        if not imagen_existente:
+            raise ValueError(f"No se encontró la imagen con ID {imagen_dto.id}")
+
+        print(f"[DEBUG] ID en BD antes de actualizar: {imagen_existente.id}")  # Confirmar que el ID no cambió
+
+        # Solo actualizamos los campos que pueden cambiar, el ID se mantiene
+        imagen_existente.url_imagen_anonimizada = imagen_dto.url_imagen_anonimizada
+        imagen_existente.estado_procesamiento = imagen_dto.estado_procesamiento
+
+        self.repositorio.actualizar(imagen_existente)
+
+        print(f"[DEBUG] ID en BD después de actualizar: {imagen_existente.id}")  # Confirmar que el ID sigue igual
+
         evento = ImagenProcesada(
             timestamp=datetime.now(),
-            imagen_id=imagen.id,
-            estado_procesamiento=imagen.estado_procesamiento
+            imagen_id=imagen_existente.id,
+            estado_procesamiento=imagen_existente.estado_procesamiento
         )
         dispatcher.publicar(evento)
-        return self.mapeador.entidad_a_dto(imagen)
-    
+
+        return self.mapeador.entidad_a_dto(imagen_existente)
+
     def eliminar_imagen(self, id_imagen):
         imagen = self.repositorio.obtener_por_id(id_imagen)
         if imagen:
@@ -60,12 +75,3 @@ class ServicioImagenAnonimizada:
             )
             dispatcher.publicar(evento)
         self.repositorio.eliminar(id_imagen)
-
-    def obtener_imagen(self, id_imagen) -> ImagenAnonimizada:
-        imagen_dict = self.repositorio.obtener_por_id(id_imagen)  # Aquí podrías estar obteniendo un dict
-        
-        if not imagen_dict:
-            raise ValueError(f"No se encontró la imagen con id {id_imagen}")
-
-        # Convertir el diccionario a una entidad ImagenAnonimizada
-        return self.mapeador.dto_a_entidad(imagen_dict)

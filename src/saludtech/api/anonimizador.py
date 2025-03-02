@@ -44,14 +44,32 @@ def obtener_imagenes():
     imagenes = servicio.obtener_todas_las_imagenes()
     return jsonify(imagenes), 200
 
-@bp.route('/imagen/<string:id>', methods=['PUT'])
-def actualizar_imagen(id=None):
+@bp.route('/imagen/<uuid:id>', methods=['PUT'])
+def actualizar_imagen(id):
     data = request.get_json()
     map_imagen = MapeadorImagenAnonimizadaDTOJson()
-    imagen_dto = map_imagen.externo_a_dto(data)
     servicio = ServicioImagenAnonimizada()
+    
+    # Buscar la imagen existente en la base de datos
+    try:
+        imagen_existente = servicio.obtener_imagen(id)
+    except ValueError:
+        return jsonify({"error": f"No se encontró la imagen con ID {id}"}), 404
+
+    print(f"[DEBUG] Antes del mapeo: {imagen_existente.id}")  # Verificar ID antes del mapeo
+
+    imagen_dto = map_imagen.dto_a_entidad(data, imagen_existente)
+
+    print(f"[DEBUG] Después del mapeo: {imagen_dto.id}")  # Verificar que el ID se mantenga
+
+    # Si el ID cambió, lanzar un error para depuración
+    if imagen_dto.id != imagen_existente.id:
+        raise ValueError(f"[ERROR] ID cambió durante el mapeo: {imagen_existente.id} -> {imagen_dto.id}")
+
+    # Actualizar en la base de datos
     dto_final = servicio.actualizar_imagen(imagen_dto)
     return jsonify(dto_final), 200
+
 
 
 @bp.route('/imagen/<string:id>', methods=['DELETE'])
