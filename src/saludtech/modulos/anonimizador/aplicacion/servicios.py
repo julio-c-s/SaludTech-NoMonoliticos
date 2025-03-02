@@ -1,5 +1,6 @@
 from datetime import datetime
 from saludtech.config.db import get_db
+from saludtech.modulos.anonimizador.dominio.entidades import ImagenAnonimizada
 from saludtech.modulos.anonimizador.infraestructura.repositorios import RepositorioImagenesSQL
 from saludtech.modulos.anonimizador.aplicacion.mapeadores import MapeadorImagenAnonimizadaDTOJson
 from saludtech.modulos.anonimizador.dominio.fabricas import FabricaImagenes
@@ -59,3 +60,12 @@ class ServicioImagenAnonimizada:
             )
             dispatcher.publicar(evento)
         self.repositorio.eliminar(id_imagen)
+
+    def obtener_imagen(self, id_imagen) -> ImagenAnonimizada:
+        imagen_dict = self.repositorio.obtener_por_id(id_imagen)  # Aquí podrías estar obteniendo un dict
+        
+        if not imagen_dict:
+            raise ValueError(f"No se encontró la imagen con id {id_imagen}")
+
+        # Convertir el diccionario a una entidad ImagenAnonimizada
+        return self.mapeador.dto_a_entidad(imagen_dict)

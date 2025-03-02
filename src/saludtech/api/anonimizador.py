@@ -28,7 +28,7 @@ def obtener_imagen(id=None):
     servicio = ServicioImagenAnonimizada()
     if id:
         try:
-            imagen = servicio.obtener_imagen_por_id(id)
+            imagen = servicio.obtener_imagen(id)
             if imagen is None:
                 return jsonify({"message": "Imagen no encontrada"}), 404
             return jsonify(imagen), 200
@@ -52,6 +52,7 @@ def actualizar_imagen(id=None):
     servicio = ServicioImagenAnonimizada()
     dto_final = servicio.actualizar_imagen(imagen_dto)
     return jsonify(dto_final), 200
+
 
 @bp.route('/imagen/<string:id>', methods=['DELETE'])
 def eliminar_imagen(id=None):
