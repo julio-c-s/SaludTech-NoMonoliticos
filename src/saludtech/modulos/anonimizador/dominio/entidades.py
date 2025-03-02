@@ -1,5 +1,4 @@
 from saludtech.seedwork.dominio.entidades import Entidad  # Base class from seedwork
-from saludtech.modulos.anonimizador.dominio.objetos_valor import MetadatosClinicos
 from sqlalchemy import Column, String, DateTime, Enum
 from sqlalchemy.dialects.postgresql import UUID, JSONB
 from datetime import datetime

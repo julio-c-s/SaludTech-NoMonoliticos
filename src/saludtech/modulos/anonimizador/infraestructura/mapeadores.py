@@ -5,9 +5,8 @@ def mapear_a_entidad(registro) -> ImagenAnonimizada:
     Convierte un registro ORM a una instancia de ImagenAnonimizada.
     Se asume que 'registro' posee atributos: id, url, modalidad, region_anatomica, patologia y estado_procesamiento.
     """
-    from saludtech.modulos.anonimizador.dominio.objetos_valor import MetadatosClinicos
-    metadatos = MetadatosClinicos(registro.modalidad, registro.region_anatomica, registro.patologia)
-    return ImagenAnonimizada(registro.id, registro.url, metadatos, registro.estado_procesamiento)
+
+    return ImagenAnonimizada(registro.id, registro.id_imagen_original, registro.url_imagen_original)
 
 def mapear_a_registro(imagen: ImagenAnonimizada) -> dict:
     """

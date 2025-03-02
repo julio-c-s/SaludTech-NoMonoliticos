@@ -1,15 +1,13 @@
 # infraestructura/fabricas.py
 from dataclasses import dataclass
 from saludtech.modulos.anonimizador.dominio.entidades import ImagenAnonimizada
-from saludtech.modulos.anonimizador.dominio.objetos_valor import MetadatosClinicos
 from saludtech.config.db import get_db
 from saludtech.seedwork.dominio.fabricas import Fabrica
 
 class ImagenAnonimizadaFactory:
     @staticmethod
-    def crear_imagen(id: str, url: str, modalidad: str, region_anatomica: str, patologia: str) -> ImagenAnonimizada:
-        metadatos = MetadatosClinicos(modalidad, region_anatomica, patologia)
-        return ImagenAnonimizada(id, url, metadatos)
+    def crear_imagen(id: str, id_imagen_original:str, url_imagen_original:str, url_imagen_anonimizada:str, estado_procesamiento:str) -> ImagenAnonimizada:
+         return ImagenAnonimizada(id, id_imagen_original, url_imagen_original, url_imagen_anonimizada, estado_procesamiento)
 
 @dataclass
 class FabricaRepositorio(Fabrica):
