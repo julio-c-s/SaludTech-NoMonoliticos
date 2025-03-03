@@ -15,7 +15,8 @@ class ImagenAnonimizada(Entidad):
     fecha_creacion = Column(DateTime, nullable=False, default=datetime.utcnow)
 
     def __init__(self, id=None, id_imagen_original=None, url_imagen_original=None, url_imagen_anonimizada=None, estado_procesamiento="pendiente"):
-        super().__init__(id if id else str(uuid.uuid4()))  # Solo genera un nuevo ID si no se proporciona uno
+        #super().__init__(id if id else str(uuid.uuid4()))  # Solo genera un nuevo ID si no se proporciona uno
+        self.id = id if id else str(uuid.uuid4()) 
         self.id_imagen_original = id_imagen_original
         self.url_imagen_original = url_imagen_original
         self.url_imagen_anonimizada = url_imagen_anonimizada

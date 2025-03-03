@@ -42,10 +42,10 @@ class MapeadorImagenAnonimizadaDTOJson:
         """
 
         return {
-            'id': entidad.id,
-            'id_imagen_original': entidad.id_imagen_original,
+            'id': str(entidad.id),
+            'id_imagen_original': str(entidad.id_imagen_original),
             'url_imagen_original': entidad.url_imagen_original,
-            "url_imagen_anonimizada": entidad.url_imagen_anonimizada,
+            "url_imagen_anonimizada": entidad.url_imagen_anonimizada if entidad.url_imagen_anonimizada else "",
             "estado_procesamiento": entidad.estado_procesamiento
         }
 

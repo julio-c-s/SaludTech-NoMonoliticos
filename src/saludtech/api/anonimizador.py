@@ -1,4 +1,5 @@
 import json
+from uuid import UUID
 import saludtech.seedwork.presentacion.api as api
 from flask import redirect, render_template, request, session, url_for, Response,jsonify
 from saludtech.modulos.anonimizador.aplicacion.servicios import ServicioImagenAnonimizada
@@ -12,13 +13,11 @@ bp = api.crear_blueprint('anonimizador', '/anonimizador')
 @bp.route('/imagen', methods=['POST'])
 def registrar_imagen():
     data = request.get_json()
-    print("Datos recibidos:", data)
     map_imagen = MapeadorImagenAnonimizadaDTOJson()
     try:
         imagen_dto = map_imagen.externo_a_dto(data)
     except ValueError as e:
         return jsonify({"error": str(e)}), 400
-    print("Imagen DTO creada:", imagen_dto.__dict__)
     servicio = ServicioImagenAnonimizada()
     dto_final = servicio.registrar_imagen(imagen_dto)
     return jsonify(dto_final), 201
@@ -29,7 +28,12 @@ def obtener_imagen(id=None):
     servicio = ServicioImagenAnonimizada()
     if id:
         try:
-            imagen = servicio.obtener_imagen(id)
+            id_uuid = UUID(id)
+        except ValueError:
+            return jsonify({"error": "ID inválido, debe ser un UUID"}), 400
+        
+        try:
+            imagen = servicio.obtener_imagen(str(id_uuid))
             if imagen is None:
                 return jsonify({"message": "Imagen no encontrada"}), 404
             return jsonify(imagen), 200
@@ -48,20 +52,16 @@ def obtener_imagenes():
 @bp.route('/imagen/<string:id>', methods=['PUT'])  # Cambiar de <uuid:id> a <string:id> para evitar problemas de conversión
 def actualizar_imagen(id):
     data = request.get_json()
-    print("Datos recibidos en PUT:", data)  # Debugging
-
     map_imagen = MapeadorImagenAnonimizadaDTOJson()
     servicio = ServicioImagenAnonimizada()
 
     try:
         imagen_existente = servicio.obtener_imagen(id)
-        print("Imagen existente encontrada:", imagen_existente.__dict__)  # Debugging
     except ValueError as e:
         return jsonify({"error": str(e)}), 404
 
     try:
         imagen_dto = map_imagen.dto_a_entidad(data, imagen_existente)
-        print("DTO transformado:", imagen_dto.__dict__)  # Debugging
     except Exception as e:
         return jsonify({"error": f"Error en mapeo DTO: {str(e)}"}), 400
 
