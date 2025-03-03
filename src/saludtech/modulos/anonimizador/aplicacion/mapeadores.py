@@ -7,18 +7,34 @@ class MapeadorImagenAnonimizadaDTOJson:
 
     def dto_a_entidad(self, dto, entidad_existente=None) -> ImagenAnonimizada:
         """
-        Convierte un DTO en una entidad ImagenAnonimizada, asegurando que el ID y las URL no sean NULL.
+        Convierte un DTO en una entidad ImagenAnonimizada.
         """
         if entidad_existente:
             id_imagen = entidad_existente.id
-            url_imagen_original = entidad_existente.url_imagen_original
-            url_imagen_anonimizada = entidad_existente.url_imagen_anonimizada  # Mantiene la URL ya almacenada
         else:
-            id_imagen = dto.get('id')
-            url_imagen_original = dto.get('url_imagen_original', '')
-            url_imagen_anonimizada = dto.get('url_imagen_anonimizada', '')  # Si no se envía, usa un string vacío
+            id_imagen = dto.get('id', str(uuid.uuid4()))
 
-        return ImagenAnonimizada(id_imagen, url_imagen_original, url_imagen_anonimizada, dto.get('estado_procesamiento', 'pendiente'))
+        id_imagen_original = dto.get('id_imagen_original', entidad_existente.id_imagen_original if entidad_existente else None)
+        url_imagen_original = dto.get('url_imagen_original', entidad_existente.url_imagen_original if entidad_existente else None)
+        url_imagen_anonimizada = dto.get('url_imagen_anonimizada', entidad_existente.url_imagen_anonimizada if entidad_existente else '')
+
+        if not id_imagen_original or not url_imagen_original:
+            raise ValueError("id_imagen_original y url_imagen_original son obligatorios")
+
+        # Validar y corregir el valor de estado_procesamiento
+        estado_procesamiento = dto.get('estado_procesamiento', entidad_existente.estado_procesamiento if entidad_existente else 'pendiente')
+        
+        if estado_procesamiento == "procesada":
+            estado_procesamiento = "procesado"  # Cambiar a valor válido en la base de datos
+
+        return ImagenAnonimizada(
+            id=id_imagen,
+            id_imagen_original=id_imagen_original,
+            url_imagen_original=url_imagen_original,
+            url_imagen_anonimizada=url_imagen_anonimizada,
+            estado_procesamiento=estado_procesamiento
+        )
+
 
     def entidad_a_dto(self, entidad: ImagenAnonimizada) -> dict:
         """

@@ -11,17 +11,18 @@ bp = api.crear_blueprint('anonimizador', '/anonimizador')
 
 @bp.route('/imagen', methods=['POST'])
 def registrar_imagen():
-
     data = request.get_json()
-   
+    print("Datos recibidos:", data)
     map_imagen = MapeadorImagenAnonimizadaDTOJson()
-
-    imagen_dto = map_imagen.externo_a_dto(data)
-
+    try:
+        imagen_dto = map_imagen.externo_a_dto(data)
+    except ValueError as e:
+        return jsonify({"error": str(e)}), 400
+    print("Imagen DTO creada:", imagen_dto.__dict__)
     servicio = ServicioImagenAnonimizada()
-
     dto_final = servicio.registrar_imagen(imagen_dto)
     return jsonify(dto_final), 201
+
 
 @bp.route('/imagen/<string:id>', methods=['GET'])
 def obtener_imagen(id=None):
@@ -44,28 +45,35 @@ def obtener_imagenes():
     imagenes = servicio.obtener_todas_las_imagenes()
     return jsonify(imagenes), 200
 
-@bp.route('/imagen/<uuid:id>', methods=['PUT'])
+@bp.route('/imagen/<string:id>', methods=['PUT'])  # Cambiar de <uuid:id> a <string:id> para evitar problemas de conversión
 def actualizar_imagen(id):
     data = request.get_json()
+    print("Datos recibidos en PUT:", data)  # Debugging
+
     map_imagen = MapeadorImagenAnonimizadaDTOJson()
     servicio = ServicioImagenAnonimizada()
-    
-    # Buscar la imagen existente en la base de datos
+
     try:
         imagen_existente = servicio.obtener_imagen(id)
-    except ValueError:
-        return jsonify({"error": f"No se encontró la imagen con ID {id}"}), 404
+        print("Imagen existente encontrada:", imagen_existente.__dict__)  # Debugging
+    except ValueError as e:
+        return jsonify({"error": str(e)}), 404
 
-    imagen_dto = map_imagen.dto_a_entidad(data, imagen_existente)
+    try:
+        imagen_dto = map_imagen.dto_a_entidad(data, imagen_existente)
+        print("DTO transformado:", imagen_dto.__dict__)  # Debugging
+    except Exception as e:
+        return jsonify({"error": f"Error en mapeo DTO: {str(e)}"}), 400
 
-    # Si el ID cambió, lanzar un error para depuración
-    if imagen_dto.id != imagen_existente.id:
-        raise ValueError(f"[ERROR] ID cambió durante el mapeo: {imagen_existente.id} -> {imagen_dto.id}")
+    # Verificación de ID antes de actualizar
+    if str(imagen_dto.id) != str(imagen_existente.id):
+        return jsonify({"error": "El ID en el cuerpo de la solicitud no coincide con el ID en la base de datos"}), 400
 
-    # Actualizar en la base de datos
-    dto_final = servicio.actualizar_imagen(imagen_dto)
-    return jsonify(dto_final), 200
-
+    try:
+        dto_final = servicio.actualizar_imagen(imagen_dto)
+        return jsonify(dto_final), 200
+    except Exception as e:
+        return jsonify({"error": f"Error en la actualización: {str(e)}"}), 500
 
 
 @bp.route('/imagen/<string:id>', methods=['DELETE'])

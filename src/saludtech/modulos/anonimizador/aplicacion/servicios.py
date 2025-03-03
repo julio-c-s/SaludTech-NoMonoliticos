@@ -40,29 +40,33 @@ class ServicioImagenAnonimizada:
         return [self.mapeador.entidad_a_dto(imagen) for imagen in imagenes]
 
     def actualizar_imagen(self, imagen_dto):
-        imagen_existente = self.repositorio.obtener_por_id(imagen_dto.id)
+        try:
+            imagen_existente = self.repositorio.obtener_por_id(imagen_dto.id)
 
-        if not imagen_existente:
-            raise ValueError(f"[ERROR] No se encontró la imagen con ID {imagen_dto.id}.")
+            if not imagen_existente:
+                raise ValueError(f"[ERROR] No se encontró la imagen con ID {imagen_dto.id}.")
 
-        # Actualizar los campos
-        imagen_existente.url_imagen_anonimizada = imagen_dto.url_imagen_anonimizada
-        imagen_existente.estado_procesamiento = imagen_dto.estado_procesamiento
+            # Actualizar los campos
+            imagen_existente.url_imagen_anonimizada = imagen_dto.url_imagen_anonimizada
+            imagen_existente.estado_procesamiento = imagen_dto.estado_procesamiento
 
-        self.repositorio.actualizar(imagen_existente)
+            print("Actualizando imagen en la base de datos...")  # Debugging
+            self.repositorio.actualizar(imagen_existente)
+            print("Imagen actualizada correctamente.")  # Debugging
 
-        # Disparar evento
-        evento = ImagenProcesada(
-            timestamp=datetime.now(),
-            imagen_id=imagen_existente.id,
-            estado_procesamiento=imagen_existente.estado_procesamiento
-        )
-        dispatcher.publicar(evento)
+            # Disparar evento
+            evento = ImagenProcesada(
+                timestamp=datetime.now(),
+                imagen_id=imagen_existente.id,
+                estado_procesamiento=imagen_existente.estado_procesamiento
+            )
+            dispatcher.publicar(evento)
 
-        return self.mapeador.entidad_a_dto(imagen_existente)
+            return self.mapeador.entidad_a_dto(imagen_existente)
 
-
-
+        except Exception as e:
+            print(f"Error al actualizar imagen: {str(e)}")  # Debugging
+            raise e
 
     def eliminar_imagen(self, id_imagen):
         imagen = self.repositorio.obtener_por_id(id_imagen)
@@ -74,3 +78,10 @@ class ServicioImagenAnonimizada:
             )
             dispatcher.publicar(evento)
         self.repositorio.eliminar(id_imagen)
+
+    def obtener_por_id(self, id_imagen):
+        try:
+            return self.session.query(ImagenAnonimizada).filter(ImagenAnonimizada.id == str(id_imagen)).first()
+        except Exception as e:
+            print(f"Error obteniendo imagen por ID {id_imagen}: {str(e)}")
+            return None
