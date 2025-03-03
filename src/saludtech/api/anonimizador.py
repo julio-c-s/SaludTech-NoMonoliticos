@@ -56,11 +56,7 @@ def actualizar_imagen(id):
     except ValueError:
         return jsonify({"error": f"No se encontró la imagen con ID {id}"}), 404
 
-    print(f"[DEBUG] Antes del mapeo: {imagen_existente.id}")  # Verificar ID antes del mapeo
-
     imagen_dto = map_imagen.dto_a_entidad(data, imagen_existente)
-
-    print(f"[DEBUG] Después del mapeo: {imagen_dto.id}")  # Verificar que el ID se mantenga
 
     # Si el ID cambió, lanzar un error para depuración
     if imagen_dto.id != imagen_existente.id:

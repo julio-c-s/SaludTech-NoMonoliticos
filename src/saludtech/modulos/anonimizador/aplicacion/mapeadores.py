@@ -7,24 +7,18 @@ class MapeadorImagenAnonimizadaDTOJson:
 
     def dto_a_entidad(self, dto, entidad_existente=None) -> ImagenAnonimizada:
         """
-        Convierte un DTO en una entidad ImagenAnonimizada, asegurando que el ID no cambie si ya existe.
+        Convierte un DTO en una entidad ImagenAnonimizada, asegurando que el ID y las URL no sean NULL.
         """
-
         if entidad_existente:
-            id_imagen = entidad_existente.id  # Mantiene el ID original si la imagen ya existe
+            id_imagen = entidad_existente.id
             url_imagen_original = entidad_existente.url_imagen_original
+            url_imagen_anonimizada = entidad_existente.url_imagen_anonimizada  # Mantiene la URL ya almacenada
         else:
-            # Si no existe, usa el ID del DTO (si está presente) o lanza error
             id_imagen = dto.get('id')
-            if not id_imagen:
-                raise ValueError("[ERROR] Se esperaba un ID en la solicitud, pero no se encontró.")
-
             url_imagen_original = dto.get('url_imagen_original', '')
+            url_imagen_anonimizada = dto.get('url_imagen_anonimizada', '')  # Si no se envía, usa un string vacío
 
-        print(f"[DEBUG] ID después del mapeo (verificar que no cambie): {id_imagen}")  
-
-        return ImagenAnonimizada(id_imagen, url_imagen_original, dto.get('estado_procesamiento', 'pendiente'))
-
+        return ImagenAnonimizada(id_imagen, url_imagen_original, url_imagen_anonimizada, dto.get('estado_procesamiento', 'pendiente'))
 
     def entidad_a_dto(self, entidad: ImagenAnonimizada) -> dict:
         """
@@ -40,8 +34,6 @@ class MapeadorImagenAnonimizadaDTOJson:
         }
 
     def externo_a_dto(self, externo: dict, entidad_existente=None) -> ImagenAnonimizada:
-        """
-        Convierte una solicitud externa en una entidad ImagenAnonimizada.
-        """
+        imagen = self.dto_a_entidad(externo, entidad_existente)
+        return imagen
 
-        return self.dto_a_entidad(externo, entidad_existente)

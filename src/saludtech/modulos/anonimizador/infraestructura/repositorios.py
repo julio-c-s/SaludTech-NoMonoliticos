@@ -44,13 +44,17 @@ class RepositorioImagenesSQL(RepositorioImagenes):
         try:
             data = mapear_a_registro(imagen)
             registro = self.session.query(self._tabla).filter_by(id=imagen.id).first()
+
             if registro:
                 for key, value in data.items():
                     setattr(registro, key, value)
-                self.session.commit()
+            else:
+                print(f"[ERROR] No se encontró la imagen con ID: {imagen.id}, podría estar intentando insertar una nueva.")
+            self.session.commit()
         except Exception as e:
             self.session.rollback()
             raise RepositorioException(f"Error al actualizar la imagen: {str(e)}")
+
 
     def eliminar(self, id_imagen):
         try:
