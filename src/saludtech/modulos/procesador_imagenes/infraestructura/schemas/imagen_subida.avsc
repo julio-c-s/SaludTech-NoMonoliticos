@@ -1,0 +1,11 @@
+{
+  "namespace": "com.saludtech.eventos",
+  "type": "record",
+  "name": "ImagenSubida",
+  "fields": [
+    {"name": "schema_version", "type": "string", "default": "1.0"},
+    {"name": "timestamp", "type": "string"},
+    {"name": "imagen_id", "type": "string"},
+    {"name": "ruta_archivo", "type": "string"}
+  ]
+}
