@@ -16,7 +16,7 @@ El repositorio en su raíz está estructurado de la siguiente forma:
 - **requirements.txt**: Archivo con los requerimientos para el correcto funcionamiento del proyecto (librerias Python)
 
 
-## Ejecutar Aplicación
+## Ejecutar Aplicación Saludteh
 
 Desde el directorio principal ejecute el siguiente comando.
 
@@ -29,3 +29,17 @@ Siempre puede ejecutarlo en modo DEBUG:
 ```bash
 flask --app src/saludtech/api --debug run
 ```
+
+
+## Ejecutar Aplicación Clientes
+
+Desde el directorio principal ejecute el siguiente comando.
+
+```bash
+flask --app src/clientes/api run
+```
+
+Siempre puede ejecutarlo en modo DEBUG:
+
+```bash
+flask --app src/clientes/api --debug run
