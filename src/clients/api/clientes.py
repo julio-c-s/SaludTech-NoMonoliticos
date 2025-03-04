@@ -11,7 +11,7 @@ from clients.modulos.vuelos.aplicacion.comandos.crear_reserva import CrearReserv
 from clients.seedwork.aplicacion.comandos import ejecutar_commando
 from clients.seedwork.aplicacion.queries import ejecutar_query
 
-bp = api.crear_blueprint('vuelos', '/vuelos')
+bp = api.crear_blueprint('clientes', '/clientes')
 
 @bp.route('/reserva', methods=('POST',))
 def reservar():
