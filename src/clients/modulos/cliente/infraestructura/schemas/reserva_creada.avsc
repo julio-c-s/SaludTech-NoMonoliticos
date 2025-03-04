@@ -1,0 +1,11 @@
+{
+  "namespace": "com.clients.eventos",
+  "type": "record",
+  "name": "ReservaCreada",
+  "fields": [
+    {"name": "schema_version", "type": "string", "default": "1.0"},
+    {"name": "timestamp", "type": "string"},
+    {"name": "reserva_id", "type": "string"},
+    {"name": "detalles", "type": "string"}
+  ]
+}
