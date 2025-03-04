@@ -23,13 +23,18 @@ services:
     depends_on:
       - pulsar
     command: flask run --host=0.0.0.0
+
   clients:
     build: .
+    container_name: clients
     ports:
-      - "5001:5000"
+      - "5002:5000"
     volumes:
       - .:/app
     environment:
       - FLASK_ENV=development
       - FLASK_APP=src/clients/api
+      - PULSAR_SERVICE_URL=pulsar://pulsar:6650
+    depends_on:
+      - pulsar
     command: flask run --host=0.0.0.0
