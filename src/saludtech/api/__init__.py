@@ -33,9 +33,13 @@ def create_app(configuracion=None):
 
     # Import Blueprints for the new routes
     from saludtech.api.procesador_imagenes import bp as procesador_imagenes_bp
+    from saludtech.api.anonimizador import bp as anoimizador
+    from saludtech.api.notificador import bp as notificador
 
     # Register the blueprint with a URL prefix
     app.register_blueprint(procesador_imagenes_bp, url_prefix="/api")
+    app.register_blueprint(anoimizador, url_prefix="/api/anoimizador")
+    app.register_blueprint(notificador, url_prefix="/api/notificador")
 
     # @app.route("/spec")
     # def spec():
