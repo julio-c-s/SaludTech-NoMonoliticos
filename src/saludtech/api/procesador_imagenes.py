@@ -58,3 +58,7 @@ def eliminar_imagen(id=None):
     servicio = ServicioImagenMedica()
     servicio.eliminar_imagen(id)
     return jsonify({"message": "Imagen eliminada"}), 200
+
+@bp.route('/', methods=['GET'])
+def home():
+    return jsonify({"message": "API funcionando"}), 200
