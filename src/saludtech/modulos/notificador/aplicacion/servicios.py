@@ -23,7 +23,7 @@ class ServicioNotificaciones:
         self.repositorio.guardar(notificacion)
         evento = NotificacionEnviada(
             timestamp=datetime.now(),
-            notificacion_id=notificacion.id,
+            id=notificacion.id,
             destinatario=notificacion.destinatario
         )
         dispatcher.publicar(evento)
@@ -56,7 +56,7 @@ class ServicioNotificaciones:
             # Disparar evento
             evento = NotificacionFallida(
                 timestamp=datetime.now(),
-                notificacion_id=notificacion_existente.id,
+                id=notificacion_existente.id,
                 destinatario=notificacion_existente.destinatario
             )
             dispatcher.publicar(evento)
@@ -70,7 +70,7 @@ class ServicioNotificaciones:
         if notificacion:
             evento = NotificacionFallida(
                 timestamp=datetime.now(),
-                notificacion_id=id_notificacion,
+                id=id_notificacion,
                 destinatario=notificacion.destinatario
             )
             dispatcher.publicar(evento)

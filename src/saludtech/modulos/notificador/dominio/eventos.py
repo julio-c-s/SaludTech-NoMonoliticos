@@ -9,18 +9,17 @@ class EventoDominio:
 @dataclass
 class NotificacionEnviada(EventoDominio):
     """Evento de dominio para notificación enviada."""
-    id_notificacion: str
+    id: str
     destinatario: str
 
 @dataclass
 class NotificacionFallida(EventoDominio):
     """Evento de dominio para notificación fallida."""
-    id_notificacion: str
-    error: str
+    id: str
+    destinatario: str
 
 @dataclass
 class NotificacionEliminada(EventoDominio):
     """Evento de dominio para notificación eliminada."""
-    id_notificacion: str
-    motivo: str
+    id: str
     destinatario: str
