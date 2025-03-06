@@ -1,3 +1,4 @@
+import uuid
 from clients.seedwork.aplicacion.comandos import Comando, ComandoHandler    
 
 class AgregarReservaUsuario(Comando):

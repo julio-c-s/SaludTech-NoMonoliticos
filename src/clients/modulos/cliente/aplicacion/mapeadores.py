@@ -1,3 +1,4 @@
+from clients.modulos.vuelos.aplicacion.dto import ItinerarioDTO, LegDTO, OdoDTO, ReservaDTO, SegmentoDTO
 from clients.seedwork.aplicacion.dto import Mapeador as AppMap
 from clients.seedwork.dominio.repositorios import Mapeador as RepMap
 from clients.modulos.vuelos.dominio.entidades import Reserva, Aeropuerto
