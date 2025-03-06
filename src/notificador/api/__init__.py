@@ -1,51 +1,24 @@
 import os
+from uuid import UUID
 from flask import Flask, jsonify
-from flask_swagger import swagger
-from dotenv import load_dotenv
+from notificador.api.notificador import bp as notificador_bp
+from notificador.config.db import init_db
+from notificador.modulos.notificador.infraestructura.modelos import importar_modelos_alchemy
 
-# Identifica el directorio base
+app = Flask(__name__)
+app.config['SQLALCHEMY_DATABASE_URI'] = "postgresql://postgres:Monoliticas2025#@34.60.201.230:5432/postgres"
+app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
+
 basedir = os.path.abspath(os.path.dirname(__file__))
 
-def importar_modelos_alchemy():
-    ##import notificador.modulos.procesador_imagenes.infraestructura.dto
-    import notificador.modulos.notificador.infraestructura.modelos
+init_db(app)
+importar_modelos_alchemy()
 
+@app.route('/', methods=['GET'])
+def index():
+    return jsonify({"message": "Hello, World!"})
 
-def create_app(configuracion=None):
-    # Initialize the Flask application
-    app = Flask(__name__, instance_relative_config=True)
+app.register_blueprint(notificador_bp, url_prefix="/api/notificador")
 
-    # Database configuration
-    app.config['SQLALCHEMY_DATABASE_URI'] = "postgresql://postgres:Monoliticas2025#@34.60.201.230:5432/postgres" #os.getenv("DATABASE_URL", "postgresql://postgres:Monoliticas2025#@34.60.201.230:5432/postgres")
-    app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
-
-    # Initialize the DB
-    from notificador.config.db import init_db
-    init_db(app)
-
-    from notificador.config.db import db
-
-    # Import ORM models
-    importar_modelos_alchemy()
-
-    with app.app_context():
-        db.create_all()
-
-    # Import Blueprints for the new routes
-    from notificador.api.notificador import bp as notificador
-
-    # Register the blueprint with a URL prefix
-    app.register_blueprint(notificador, url_prefix="/api/notificador")
-
-    # @app.route("/spec")
-    # def spec():
-    #     swag = swagger(app)
-    #     swag['info']['version'] = "1.0"
-    #     swag['info']['title'] = "My API"
-    #     return jsonify(swag)
-
-    @app.route("/health")
-    def health():
-        return {"status": "up"}
-
-    return app
+if __name__ == '__main__':
+    app.run(host='0.0.0.0', port=0, debug=True)

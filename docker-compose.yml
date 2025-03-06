@@ -4,15 +4,18 @@ services:
   pulsar:
     image: apachepulsar/pulsar:latest
     container_name: pulsar
-    command: bin/pulsar standalone
+    command: ["bin/pulsar", "standalone"]
     ports:
       - "6650:6650"
       - "8080:8080"
     environment:
       - PULSAR_MEM=-Xms512m -Xmx512m -XX:MaxDirectMemorySize=512m
+    restart: unless-stopped
 
   app:
-    build: .
+    build:
+      context: .
+      dockerfile: src/saludtech/Dockerfile  # Ruta específica del Dockerfile
     container_name: app
     ports:
       - "5000:5000"
@@ -23,9 +26,12 @@ services:
     depends_on:
       - pulsar
     command: flask run --host=0.0.0.0
+    restart: unless-stopped
 
   clients:
-    build: .
+    build:
+      context: .
+      dockerfile: src/clients/Dockerfile
     container_name: clients
     ports:
       - "5002:5000"
@@ -38,3 +44,38 @@ services:
     depends_on:
       - pulsar
     command: flask run --host=0.0.0.0
+    restart: unless-stopped
+
+  anonimizador:
+    build:
+      context: .
+      dockerfile: src/anonimizador/Dockerfile
+    container_name: anonimizador
+    ports:
+      - "5001:5000"
+    volumes:
+      - .:/app
+    environment:
+      - FLASK_ENV=development
+      - FLASK_APP=src/anonimizador/api
+    depends_on:
+      - pulsar
+    command: flask run --host=0.0.0.0
+    restart: unless-stopped
+
+  notificador:
+    build:
+      context: .
+      dockerfile: src/notificador/Dockerfile
+    container_name: notificador
+    ports:
+      - "5003:5000"
+    volumes:
+      - .:/app
+    environment:
+      - FLASK_ENV=development
+      - FLASK_APP=src/notificador/api
+    depends_on:
+      - pulsar
+    command: flask run --host=0.0.0.0
+    restart: unless-stoppeddocker-compose up --build
