@@ -1,6 +1,6 @@
-import saludtech.seedwork.presentacion.api as api
+import notificador.seedwork.presentacion.api as api
 from flask import request, jsonify
-from saludtech.modulos.notificador.aplicacion.servicios import ServicioNotificaciones
+from notificador.modulos.notificador.aplicacion.servicios import ServicioNotificaciones
 
 bp = api.crear_blueprint('notificador', '/notificador')
 
