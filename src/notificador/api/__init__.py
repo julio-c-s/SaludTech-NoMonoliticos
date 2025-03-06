@@ -53,5 +53,3 @@ def create_app(configuracion=None):
         return {"status": "up"}
 
     return app
-
-
