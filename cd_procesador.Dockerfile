@@ -9,4 +9,4 @@ RUN pip install --no-cache-dir -r requirements.txt
 
 EXPOSE 5000
 
-CMD ["flask", "--app", "src/saludtech/api", "run", "--host=0.0.0.0"]
+CMD ["flask", "--app", "src/saludtech/api/procesador.py", "run", "--host=0.0.0.0"]
