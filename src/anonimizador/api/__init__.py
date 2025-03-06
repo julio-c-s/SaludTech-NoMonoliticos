@@ -8,7 +8,7 @@ basedir = os.path.abspath(os.path.dirname(__file__))
 
 def importar_modelos_alchemy():
     ##import anonimizador.modulos.procesador_imagenes.infraestructura.dto
-    import anonimizador.modulos.procesador.infraestructura.modelos
+    import anonimizador.modulos.anonimizador.infraestructura.modelos
 
 
 def create_app(configuracion=None):
@@ -32,14 +32,11 @@ def create_app(configuracion=None):
         db.create_all()
 
     # Import Blueprints for the new routes
-    from anonimizador.api.procesador import bp as procesador_imagenes_bp
     from anonimizador.api.anonimizador import bp as anoimizador
-    from notificador.api.notificador import bp as notificador
+
 
     # Register the blueprint with a URL prefix
-    app.register_blueprint(procesador_imagenes_bp, url_prefix="/api")
     app.register_blueprint(anoimizador, url_prefix="/api/anoimizador")
-    app.register_blueprint(notificador, url_prefix="/api/notificador")
 
     # @app.route("/spec")
     # def spec():
