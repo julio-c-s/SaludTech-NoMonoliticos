@@ -1,7 +1,7 @@
 from dataclasses import dataclass
-from saludtech.modulos.notificador.dominio.entidades import Notificacion
-from saludtech.config.db import get_db
-from saludtech.seedwork.dominio.fabricas import Fabrica
+from notificador.modulos.notificador.dominio.entidades import Notificacion
+from notificador.config.db import get_db
+from notificador.seedwork.dominio.fabricas import Fabrica
 
 class NotificacionFactory:
     @staticmethod

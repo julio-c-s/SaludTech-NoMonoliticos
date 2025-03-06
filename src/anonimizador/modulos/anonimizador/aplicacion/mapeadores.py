@@ -1,5 +1,5 @@
 import uuid
-from saludtech.modulos.anonimizador.dominio.entidades import ImagenAnonimizada
+from anonimizador.modulos.anonimizador.dominio.entidades import ImagenAnonimizada
 
 class MapeadorImagenAnonimizadaDTOJson:
     def obtener_tipo(self):

@@ -17,4 +17,4 @@ class ImagenAnonimizadaModel(db.Model):
         return f"<ImagenAnonimizadaModel {self.id}>"
     
 def importar_modelos_alchemy():
-    import saludtech.modulos.anonimizador.infraestructura.modelos
+    import anonimizador.modulos.anonimizador.infraestructura.modelos

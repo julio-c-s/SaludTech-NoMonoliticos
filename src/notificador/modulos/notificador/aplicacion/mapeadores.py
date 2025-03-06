@@ -1,5 +1,5 @@
 import uuid
-from saludtech.modulos.notificador.dominio.entidades import Notificacion
+from notificador.modulos.notificador.dominio.entidades import Notificacion
 
 class MapeadorNotificacionDTOJson:
     def obtener_tipo(self):

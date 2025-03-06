@@ -3,7 +3,7 @@ from uuid import UUID
 import anonimizador.seedwork.presentacion.api as api
 from flask import redirect, render_template, request, session, url_for, Response,jsonify
 from anonimizador.modulos.anonimizador.aplicacion.servicios import ServicioImagenAnonimizada
-# from saludtech.modulos.anonimizador.aplicacion.dto import ImagenAnonimizadaDTO
+# from anonimizador.modulos.anonimizador.aplicacion.dto import ImagenAnonimizadaDTO
 from anonimizador.seedwork.dominio.excepciones import ExcepcionDominio
 from anonimizador.modulos.anonimizador.aplicacion.mapeadores import MapeadorImagenAnonimizadaDTOJson
 from anonimizador.modulos.anonimizador.infraestructura.repositorios import RepositorioImagenesSQL

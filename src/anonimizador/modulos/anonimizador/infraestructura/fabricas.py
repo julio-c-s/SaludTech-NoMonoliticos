@@ -1,8 +1,8 @@
 # infraestructura/fabricas.py
 from dataclasses import dataclass
-from saludtech.modulos.anonimizador.dominio.entidades import ImagenAnonimizada
-from saludtech.config.db import get_db
-from saludtech.seedwork.dominio.fabricas import Fabrica
+from anonimizador.modulos.anonimizador.dominio.entidades import ImagenAnonimizada
+from anonimizador.config.db import get_db
+from anonimizador.seedwork.dominio.fabricas import Fabrica
 
 class ImagenAnonimizadaFactory:
     @staticmethod

@@ -1,6 +1,6 @@
 from dataclasses import dataclass
-from saludtech.seedwork.dominio.fabricas import Fabrica
-from saludtech.modulos.anonimizador.dominio.entidades import ImagenAnonimizada
+from anonimizador.seedwork.dominio.fabricas import Fabrica
+from anonimizador.modulos.anonimizador.dominio.entidades import ImagenAnonimizada
 
 @dataclass
 class _FabricaImagenAnonimizada(Fabrica):

@@ -1,5 +1,5 @@
-from saludtech.modulos.notificador.dominio.eventos import NotificacionEliminada, NotificacionEnviada, NotificacionFallida
-from saludtech.modulos.notificador.infraestructura.event_dispatcher import dispatcher
+from notificador.modulos.notificador.dominio.eventos import NotificacionEliminada, NotificacionEnviada, NotificacionFallida
+from notificador.modulos.notificador.infraestructura.event_dispatcher import dispatcher
 
 def manejar_notificacion_enviada(evento: NotificacionEnviada):
     print(f"📢 Notificación enviada: ID {evento.id} | Usuario {evento.usuario_id} | Mensaje {evento.mensaje}"

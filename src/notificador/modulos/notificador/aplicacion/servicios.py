@@ -1,13 +1,13 @@
 from datetime import datetime
 from dataclasses import dataclass
-from saludtech.config.db import get_db
-from saludtech.modulos.notificador.infraestructura.repositorios import RepositorioNotificacionesSQL
-from saludtech.modulos.notificador.aplicacion.mapeadores import MapeadorNotificacionDTOJson
-from saludtech.modulos.notificador.dominio.fabricas import FabricaNotificaciones
-from saludtech.modulos.notificador.dominio.eventos import (
+from notificador.config.db import get_db
+from notificador.modulos.notificador.infraestructura.repositorios import RepositorioNotificacionesSQL
+from notificador.modulos.notificador.aplicacion.mapeadores import MapeadorNotificacionDTOJson
+from notificador.modulos.notificador.dominio.fabricas import FabricaNotificaciones
+from notificador.modulos.notificador.dominio.eventos import (
     NotificacionEnviada, NotificacionFallida
 )
-from saludtech.modulos.notificador.infraestructura.event_dispatcher import dispatcher
+from notificador.modulos.notificador.infraestructura.event_dispatcher import dispatcher
 
 class ServicioNotificaciones:
     def __init__(self):

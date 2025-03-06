@@ -1,4 +1,4 @@
-from saludtech.seedwork.dominio.entidades import Entidad  # Base class from seedwork
+from anonimizador.seedwork.dominio.entidades import Entidad  # Base class from seedwork
 from sqlalchemy import Column, String, DateTime, Enum
 from sqlalchemy.dialects.postgresql import UUID, JSONB
 from datetime import datetime

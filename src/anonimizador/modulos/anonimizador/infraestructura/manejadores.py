@@ -1,4 +1,4 @@
-from saludtech.modulos.anonimizador.dominio.eventos import (
+from anonimizador.modulos.anonimizador.dominio.eventos import (
     ImagenSubida, ImagenProcesada, ErrorProcesamientoImagen, ImagenEliminada, ImagenDescargada
 )
 from infraestructura.event_dispatcher import dispatcher

@@ -1,4 +1,4 @@
-from saludtech.modulos.notificador.dominio.entidades import Notificacion
+from notificador.modulos.notificador.dominio.entidades import Notificacion
 
 def mapear_a_entidad(registro) -> Notificacion:
     """

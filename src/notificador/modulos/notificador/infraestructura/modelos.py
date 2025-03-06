@@ -16,4 +16,4 @@ class NotificacionModel(db.Model):
         return f"<NotificacionModel {self.id}>"
     
 def importar_modelos_alchemy():
-    import saludtech.modulos.notificador.infraestructura.modelos
+    import notificador.modulos.notificador.infraestructura.modelos

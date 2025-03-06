@@ -1,6 +1,6 @@
 from dataclasses import dataclass
-from saludtech.seedwork.dominio.fabricas import Fabrica
-from saludtech.modulos.notificador.dominio.entidades import Notificacion
+from notificador.seedwork.dominio.fabricas import Fabrica
+from notificador.modulos.notificador.dominio.entidades import Notificacion
 
 @dataclass
 class _FabricaNotificaciones(Fabrica):

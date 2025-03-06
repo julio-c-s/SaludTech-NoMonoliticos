@@ -1,9 +1,9 @@
-from saludtech.modulos.anonimizador.dominio.repositorio import RepositorioImagenes
-from saludtech.modulos.anonimizador.infraestructura.excepciones import RepositorioException
-from saludtech.modulos.anonimizador.infraestructura.mapeadores import mapear_a_entidad, mapear_a_registro
+from anonimizador.modulos.anonimizador.dominio.repositorio import RepositorioImagenes
+from anonimizador.modulos.anonimizador.infraestructura.excepciones import RepositorioException
+from anonimizador.modulos.anonimizador.infraestructura.mapeadores import mapear_a_entidad, mapear_a_registro
 
 # Import the ORM model. Ensure that this model is defined to match your ImagenAnonimizada entity.
-from saludtech.modulos.anonimizador.infraestructura.modelos import ImagenAnonimizadaModel
+from anonimizador.modulos.anonimizador.infraestructura.modelos import ImagenAnonimizadaModel
 
 
 class RepositorioImagenesSQL(RepositorioImagenes):

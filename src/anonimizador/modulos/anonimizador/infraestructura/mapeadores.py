@@ -1,4 +1,4 @@
-from saludtech.modulos.anonimizador.dominio.entidades import ImagenAnonimizada 
+from anonimizador.modulos.anonimizador.dominio.entidades import ImagenAnonimizada 
 
 def mapear_a_entidad(registro) -> ImagenAnonimizada:
     """

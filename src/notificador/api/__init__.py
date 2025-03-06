@@ -7,8 +7,8 @@ from dotenv import load_dotenv
 basedir = os.path.abspath(os.path.dirname(__file__))
 
 def importar_modelos_alchemy():
-    ##import saludtech.modulos.procesador_imagenes.infraestructura.dto
-    import saludtech.modulos.procesador.infraestructura.modelos
+    ##import notificador.modulos.procesador_imagenes.infraestructura.dto
+    import notificador.modulos.procesador.infraestructura.modelos
 
 
 def create_app(configuracion=None):
@@ -20,10 +20,10 @@ def create_app(configuracion=None):
     app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 
     # Initialize the DB
-    from saludtech.config.db import init_db
+    from notificador.config.db import init_db
     init_db(app)
 
-    from saludtech.config.db import db
+    from notificador.config.db import db
 
     # Import ORM models
     importar_modelos_alchemy()
@@ -32,7 +32,7 @@ def create_app(configuracion=None):
         db.create_all()
 
     # Import Blueprints for the new routes
-    from saludtech.api.procesador import bp as procesador_imagenes_bp
+    from notificador.api.procesador import bp as procesador_imagenes_bp
     from anonimizador.api.anonimizador import bp as anoimizador
     from notificador.api.notificador import bp as notificador
 

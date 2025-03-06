@@ -1,13 +1,13 @@
 from datetime import datetime
-from saludtech.config.db import get_db
-from saludtech.modulos.anonimizador.dominio.entidades import ImagenAnonimizada
-from saludtech.modulos.anonimizador.infraestructura.repositorios import RepositorioImagenesSQL
-from saludtech.modulos.anonimizador.aplicacion.mapeadores import MapeadorImagenAnonimizadaDTOJson
-from saludtech.modulos.anonimizador.dominio.fabricas import FabricaImagenes
-from saludtech.modulos.anonimizador.dominio.eventos import (
+from anonimizador.config.db import get_db
+from anonimizador.modulos.anonimizador.dominio.entidades import ImagenAnonimizada
+from anonimizador.modulos.anonimizador.infraestructura.repositorios import RepositorioImagenesSQL
+from anonimizador.modulos.anonimizador.aplicacion.mapeadores import MapeadorImagenAnonimizadaDTOJson
+from anonimizador.modulos.anonimizador.dominio.fabricas import FabricaImagenes
+from anonimizador.modulos.anonimizador.dominio.eventos import (
     ImagenSubida, ImagenProcesada, ErrorProcesamientoImagen, ImagenEliminada
 )
-from saludtech.modulos.anonimizador.infraestructura.event_dispatcher import dispatcher
+from anonimizador.modulos.anonimizador.infraestructura.event_dispatcher import dispatcher
 
 class ServicioImagenAnonimizada:
     def __init__(self):

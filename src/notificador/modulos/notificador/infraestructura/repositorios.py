@@ -1,7 +1,7 @@
-from saludtech.modulos.notificador.dominio.repositorio import RepositorioNotificaciones
-from saludtech.modulos.notificador.infraestructura.excepciones import RepositorioException
-from saludtech.modulos.notificador.infraestructura.mapeadores import mapear_a_entidad, mapear_a_registro
-from saludtech.modulos.notificador.infraestructura.modelos import NotificacionModel
+from notificador.modulos.notificador.dominio.repositorio import RepositorioNotificaciones
+from notificador.modulos.notificador.infraestructura.excepciones import RepositorioException
+from notificador.modulos.notificador.infraestructura.mapeadores import mapear_a_entidad, mapear_a_registro
+from notificador.modulos.notificador.infraestructura.modelos import NotificacionModel
 
 
 class RepositorioNotificacionesSQL(RepositorioNotificaciones):
