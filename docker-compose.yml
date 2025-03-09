@@ -15,8 +15,8 @@ services:
   app:
     build:
       context: .
-      dockerfile: src/saludtech/Dockerfile  # Ruta específica del Dockerfile
-    container_name: app
+      dockerfile: cd_procesador.Dockerfile   # Dockerfile para el microservicio SaludTech
+    container_name: procesador
     ports:
       - "5000:5000"
     environment:
@@ -31,7 +31,7 @@ services:
   clients:
     build:
       context: .
-      dockerfile: src/clients/Dockerfile
+      dockerfile: cd_clientes.Dockerfile      # Dockerfile para el microservicio Clientes
     container_name: clients
     ports:
       - "5002:5000"
@@ -49,15 +49,16 @@ services:
   anonimizador:
     build:
       context: .
-      dockerfile: src/anonimizador/Dockerfile
+      dockerfile: cd_anonimizador.Dockerfile   # Dockerfile para el microservicio Anonimizador
     container_name: anonimizador
     ports:
-      - "5001:5000"
+      - "5004:5000"   # Se cambió de "5001:5000" para evitar conflicto
     volumes:
       - .:/app
     environment:
       - FLASK_ENV=development
       - FLASK_APP=src/anonimizador/api
+      - PULSAR_SERVICE_URL=pulsar://pulsar:6650
     depends_on:
       - pulsar
     command: flask run --host=0.0.0.0
@@ -66,7 +67,7 @@ services:
   notificador:
     build:
       context: .
-      dockerfile: src/notificador/Dockerfile
+      dockerfile: cd_notificador.Dockerfile   # Dockerfile para el microservicio Notificador
     container_name: notificador
     ports:
       - "5003:5000"
@@ -75,7 +76,8 @@ services:
     environment:
       - FLASK_ENV=development
       - FLASK_APP=src/notificador/api
+      - PULSAR_SERVICE_URL=pulsar://pulsar:6650
     depends_on:
       - pulsar
     command: flask run --host=0.0.0.0
-    restart: unless-stoppeddocker-compose up --build
+    restart: unless-stopped
