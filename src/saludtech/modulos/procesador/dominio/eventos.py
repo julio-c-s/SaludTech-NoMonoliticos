@@ -29,3 +29,17 @@ class ImagenEliminada(EventoDominio):
     """Evento que representa cuando una imagen ha sido eliminada del sistema."""
     imagen_id: str
     motivo: str
+
+@dataclass
+class ImagenRegistradaSaga:
+    timestamp: datetime
+    imagen_id: str
+    ruta_archivo: str
+    estado: str = "INICIADA"  # Estado inicial
+
+@dataclass
+class ImagenRegistroCompensado:
+    timestamp: datetime
+    imagen_id: str
+    motivo: str
+    estado: str = "COMPENSADA"  # Estado de compensación

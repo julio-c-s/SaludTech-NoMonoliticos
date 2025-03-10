@@ -6,6 +6,7 @@ from saludtech.modulos.procesador.aplicacion.servicios import ServicioImagenMedi
 from saludtech.seedwork.dominio.excepciones import ExcepcionDominio
 from saludtech.modulos.procesador.aplicacion.mapeadores import MapeadorImagenMedicaDTOJson
 from saludtech.modulos.procesador.infraestructura.repositorios import RepositorioImagenesSQL
+from saludtech.modulos.sagas.aplicacion.global_vars import saga_coordinator_global  # La instancia global
 
 bp = api.crear_blueprint('procesador_imagenes', '/procesador_imagenes')
 
@@ -58,3 +59,9 @@ def eliminar_imagen(id=None):
     servicio = ServicioImagenMedica()
     servicio.eliminar_imagen(id)
     return jsonify({"message": "Imagen eliminada"}), 200
+
+
+@bp.route('/saga_log', methods=['GET'])
+def obtener_saga_log():
+    log = saga_coordinator_global.obtener_saga_log()
+    return jsonify(log), 200

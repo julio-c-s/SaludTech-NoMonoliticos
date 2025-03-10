@@ -1,15 +1,13 @@
 import os
-from uuid import UUID
 from flask import Flask, jsonify
 from saludtech.api.procesador import bp as anonimizador_bp
 from saludtech.config.db import init_db
 from saludtech.modulos.procesador.infraestructura.modelos import importar_modelos_alchemy
+from saludtech.modulos.sagas.aplicacion.global_vars import saga_coordinator_global  # Importa la instancia global
 
 app = Flask(__name__)
 app.config['SQLALCHEMY_DATABASE_URI'] = "postgresql://postgres:Monoliticas2025#@34.60.201.230:5432/postgres"
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
-
-basedir = os.path.abspath(os.path.dirname(__file__))
 
 init_db(app)
 importar_modelos_alchemy()

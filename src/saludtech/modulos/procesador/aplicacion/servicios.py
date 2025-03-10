@@ -8,6 +8,8 @@ from saludtech.modulos.procesador.dominio.eventos import (
     ImagenSubida, ImagenProcesada, ErrorProcesamientoImagen, ImagenEliminada
 )
 from saludtech.modulos.procesador.infraestructura.pulsar_client import PulsarClient
+from saludtech.modulos.sagas.aplicacion.saga_coordinator import SagaCoordinator
+from saludtech.modulos.sagas.aplicacion.global_vars import saga_coordinator_global 
 
 class ServicioImagenMedica:
     def __init__(self):
@@ -15,21 +17,17 @@ class ServicioImagenMedica:
         self.repositorio = RepositorioImagenesSQL(self.session)
         self.mapeador = MapeadorImagenMedicaDTOJson()
         self.fabrica = FabricaImagenes()
-        # Inicializamos el cliente de Pulsar
         self.pulsar_client = PulsarClient()
-
+        # Utiliza la instancia global importada desde global_vars
+        self.saga_coordinator = saga_coordinator_global
+    
     def registrar_imagen(self, imagen_dto):
         imagen = self.fabrica.crear_objeto(imagen_dto, self.mapeador)
         if not hasattr(imagen, 'id'):
             raise AttributeError("El objeto ImagenMedica debe contener un id")
-        self.repositorio.guardar(imagen)
-        evento = ImagenSubida(
-            timestamp=datetime.now(),
-            imagen_id=imagen.id,
-            ruta_archivo=imagen.url
-        )
-        # Publicar el evento en el tópico "eventos.imagen" usando Pulsar
-        self.pulsar_client.publish_event("eventos.imagen", asdict(evento))
+        
+        # Inicia la saga de registro de imagen usando la instancia global
+        evento_saga = self.saga_coordinator.iniciar_saga_registro_imagen(imagen)
         return self.mapeador.entidad_a_dto(imagen)
     
     def obtener_imagen_por_id(self, id_imagen):
